@@ -11,21 +11,22 @@
      (test-strategy player-strategy house-strategy 100))
   ([player-strategy house-strategy n]
      "plays n games and returns how many times the player won"
-     ;; COMPLETE
+   (reduce + (repeatedly n #(play-game player-strategy house-strategy)))
      ))
 
 (defn stop-at-17 [hand opponent-up-card]
-  ;; COMPLETE
-  )
+  (< (total hand) 17))
 
 (defn stop-at [n]
   "Returns a strategy that twists until the total is n"
-  ;; COMPLETE
+  (fn [hand opponent-up-card] (< (+ (total hand) opponent-up-card) n))
   )
 
 (defn watched [strategy]
-  ;; COMPLETE
-  )
+  (fn [hand opponent-up-card]
+    (println "hand: " hand "  " "up-card: " opponent-up-card "==>"
+             (if (strategy hand opponent-up-card) "Hit" "Don't Hit"))
+    (strategy hand opponent-up-card)))
 
 (defn smart-strategy [hand opponent-up-card]
   ;; COMPLETE
@@ -35,7 +36,7 @@
   (cond (> (total hand) 21)
         hand
 
-        (strategy hand opponent-up-card) ; Asks 'should I hit?'
+        ((watched strategy) hand opponent-up-card) ; Asks 'should I hit?'
         (recur strategy
                (add-card hand (deal)) ; Recurs, adding a card
                opponent-up-card)
