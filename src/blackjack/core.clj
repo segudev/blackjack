@@ -33,6 +33,13 @@
     (not (> (total hand) 12))
     (not (> (total hand) 17))))
 
+(defn one-more-card [strategy]
+  (fn [hand opponent-up-card]
+    (if-let [new-hand (strategy hand opponent-up-card)]
+      hand
+      (add-card hand (deal))
+      (strategy new-hand opponent-up-card))))
+
 (defn play-hand [strategy hand opponent-up-card]
   (cond (> (total hand) 21)
         hand
