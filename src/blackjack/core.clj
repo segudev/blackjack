@@ -29,8 +29,9 @@
     (strategy hand opponent-up-card)))
 
 (defn smart-strategy [hand opponent-up-card]
-  ;; COMPLETE
-  )
+  (if (< opponent-up-card 6)
+    (not (> (total hand) 12))
+    (not (> (total hand) 17))))
 
 (defn play-hand [strategy hand opponent-up-card]
   (cond (> (total hand) 21)
